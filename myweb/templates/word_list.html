@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)http://v3.bootcss.com/examples/dashboard/ -->
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
+
+    <title>VOCABULARY</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/fontawesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/static/dashboard.css" rel="stylesheet">
+    <link href="/static/my-style.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">VOCABULARY</h1>
+
+            <!-- 面板开始 -->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">MANAGE</h3>
+                </div>
+                <div class="panel-body">
+                    <!--表格 工具栏 开始-->
+                    <div class="row table-toolbar">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="test for...">
+                                <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                        <hr>
+                        <div class="col-md-3 col-sm-6 pull-right add-btn">
+                            <a href="/torch/add_word/" class="btn btn-info pull-right">ADD
+                            </a>
+                        </div>
+
+                    </div>
+                    <!--表格 工具栏 结束-->
+
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr class="something">
+                            <!--<th class="col-md-1">ID</th>-->
+                            <th class="col-md-1">WORD</th>
+                            <th class="col-md-3">CHINESE</th>
+                            <th class="col-md-6">example</th>
+                            <th class="col-md-2">OPERATION</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for word in words %}
+                        <tr class="something">
+                            <!--<td class="col-md-1" >{{ forloop.counter }}</td>-->
+                            <td class="col-md-1">{{ word.name }}</td>
+                            <td class="col-md-3">{{ word.chinese1 }} {{ word.wordclass1.type}}.<br>{{ word.chinese2 }}
+                                {{ word.wordclass2.type}}.<br>{{ word.chinese3 }} {{ word.wordclass3.type}}.<br>
+                                {{ word.chinese4 }} {{ word.wordclass4.type}}.
+                            </td>
+                            <td class="col-md-6">{{ word.example}}</td>
+                            <td class="text-center col-md-2">
+                                <!--<a class="btn btn-info btn-sm" href="/edit_book/?id={{ book.id }}"><i
+                                        class="fa fa-pencil fa-fw"
+                                        aria-hidden="true"></i>编辑
+                                </a>-->
+
+                                <a class="btn btn-primary btn-sm" data-target="#myModal" data-toggle="modal"
+                                   class="btn btn-success pull-left">Example
+                                </a>
+                                <a class="btn btn-danger btn-sm" href="/torch/drop_word/?id={{ word.id }}"><i
+                                        class="fa fa-trash-o fa-fw"
+                                        aria-hidden="true"></i>Delete
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+
+                        </tbody>
+                    </table>
+
+                    <!--分页 开始-->
+                    <div>
+                        <span>
+                            共{{pages.count}}条单词.当前第{{words.number}}页,共{{pages.num_pages}}页
+                        </span>
+                        <nav aria-label="Page navigation" class="pull-right">
+                            <ul class="pagination">
+                                <li>
+                                    <a href="?page=
+                                            {% if words.has_previous %}
+                                                {{words.previous_page_number}}
+                                            {% else %}
+                                                {{words.number}}
+                                            {% endif %}
+                                            " aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                {% for page in pages.page_range %}
+                                    <li><a href="?page={{page}}">{{page}}</a></li>
+                                 {% endfor %}
+                                <li>
+                                    <a href="?page=
+                                        {% if words.has_next %}
+                                            {{words.next_page_number}}
+                                        {% else %}
+                                            {{words.number}}
+                                        {% endif %}
+                                    " aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!--分页 结束-->
+                </div>
+            </div>
+            <!-- 面板 结束-->
+        </div>
+    </div>
+</div>
+<!--模态框开始-->
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">EXAMPLE</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--模态框结束-->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+    {#设置凸显当前的页码#}
+    <script type="text/javascript">
+        $(".pagination li:eq({{words.number}})").addClass("active");
+    </script>
+
+<script src="/static/jquery-3.3.1.min.js"></script>
+<script src="/static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

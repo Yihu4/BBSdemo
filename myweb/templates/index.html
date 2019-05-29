@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    {# 注释 #}
+</head>
+<body>
+    欢迎您<h1>{{content}}{{user}}</h1>
+<ul>
+    {%for k,v in dct.items %}
+    {% if forloop.counter|divisibleby:"2" == 0%}
+    <li style="color:#F00">{{forloop.counter}}{{k}}{{v}}</li>
+    {% else %}
+    <li style="color:#00F">{{forloop.counter}}{{k}}{{v}}</li>
+    {% endif %}
+    {% endfor %}
+</ul>
+    <hr>
+<ul>
+    {%for k,v in dct.items %}
+    <li style='color:{{forloop.counter0|divisibleby:"2"|yesno:"red,blue"}}'>{{forloop.counter0}}{{k}}{{v}}</li>
+    {# 真正运用中用的是class,然后判断奇偶 #}
+    {% endfor %}
+</ul>
+    <hr>
+<ul>
+    {%for k,v in dct.items %}
+    {%if forloop.first%}
+    test
+    {%endif%}
+    {{forloop.last}}
+    <li>{{forloop.recounter0}}{{k}}{{v}}</li>
+    {% endfor %}
+</ul>
+<hr>
+<ul>
+    {%for k,v in dct.items %}
+    <li>{{forloop.revcounter}}{{k}}{{v}}</li>
+    {% endfor %}
+</ul>
+<hr>
+
+</body>
+</html>
